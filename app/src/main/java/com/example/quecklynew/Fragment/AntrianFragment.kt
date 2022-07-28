@@ -44,10 +44,8 @@ class AntrianFragment : Fragment() {
 
         rvAntrian.adapter = AdapterEvent(dataAntrianView)
         val data = activity?.intent?.getStringExtra(EXTRA_UID)
-//        Toast.makeText(requireActivity(), "$data", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireActivity(), "$data", Toast.LENGTH_SHORT).show()
         mDbRef = FirebaseDatabase.getInstance().getReference("$data")
-
-
         getAntrian()
     }
 
