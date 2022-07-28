@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "964412182098",
+    "firebase_url": "https://quecklynew-default-rtdb.firebaseio.com",
+    "project_id": "quecklynew",
+    "storage_bucket": "quecklynew.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:964412182098:android:2927fe802e2dff3e7a598b",
+        "android_client_info": {
+          "package_name": "com.example.quecklynew"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "964412182098-v7vesg3vusnpb3phufft13gpsddsn8iv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWJz_Kd2U-KQ51q7GTpWKhOdw90N9rsMY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "964412182098-v7vesg3vusnpb3phufft13gpsddsn8iv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
