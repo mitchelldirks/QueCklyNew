@@ -1,7 +1,9 @@
 package com.example.quecklynew
 
+import android.content.ContentValues.TAG
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +17,10 @@ class ViewEvent : AppCompatActivity() {
     private lateinit var dataEventView: ArrayList<EventViewModel>
     private lateinit var mDbRef: DatabaseReference
 
+    companion object {
+        const val EXTRA_EVENT_VIEW_UID = "extra_event_view_uid"
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +30,10 @@ class ViewEvent : AppCompatActivity() {
         rvEventView = findViewById(R.id.rvEvent)
         rvEventView.layoutManager = LinearLayoutManager(this)
         rvEventView.setHasFixedSize(true)
-        mDbRef = FirebaseDatabase.getInstance().getReference("event")
+        val uidGet = intent.getStringExtra(EXTRA_EVENT_VIEW_UID)
+        Toast.makeText(this, "$uidGet", Toast.LENGTH_SHORT).show()
+        Log.e("TAG", "onCreate: $uidGet")
+        mDbRef = FirebaseDatabase.getInstance().getReference("data").child("event")
 
         getEventData()
     }

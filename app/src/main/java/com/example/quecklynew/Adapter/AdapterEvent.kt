@@ -11,6 +11,7 @@ import com.example.quecklynew.Model.EventModel
 import com.example.quecklynew.Model.EventViewModel
 import com.example.quecklynew.R
 import com.example.quecklynew.VIewQrCOde
+import com.example.quecklynew.ViewEvent
 
 class AdapterEvent(val viewEvent: ArrayList<EventViewModel>) :
     RecyclerView.Adapter<AdapterEvent.ViewHolder>() {
@@ -31,6 +32,7 @@ class AdapterEvent(val viewEvent: ArrayList<EventViewModel>) :
         holder.nmEvent.text = eventView.namaEventView
         holder.jmlAntrianView.text = eventView.nomorAntrianView
         holder.tngglEventView.text = eventView.tanggalView
+
 
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, VIewQrCOde::class.java)

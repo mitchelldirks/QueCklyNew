@@ -54,28 +54,32 @@ class CreateEvent : AppCompatActivity() {
             if (jmlAntrian.isEmpty()) {
                 Toast.makeText(this, "Masukkan Data", Toast.LENGTH_SHORT).show()
             } else {
-                val writer = QRCodeWriter()
-                try {
-                    val bitMatrix = writer.encode(uid, BarcodeFormat.QR_CODE, 512, 512)
-                    val width = bitMatrix.width
-                    val height = bitMatrix.height
-                    val bmp = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
-                    for (x in 0 until width) {
-                        for (y in 0 until height) {
-                            bmp.setPixel(x, y, if (bitMatrix[x, y]) Color.BLACK else Color.WHITE)
-                        }
-                    }
-                    qrImage.setImageBitmap(bmp)
-                    addDataEvent(namaEv, jmlAntrian, time, uid)
-                } catch (e: WriterException) {
-                    e.printStackTrace()
-                }
+//                val writer = QRCodeWriter()
+//                try {
+//                    val bitMatrix = writer.encode(uid, BarcodeFormat.QR_CODE, 512, 512)
+//                    val width = bitMatrix.width
+//                    val height = bitMatrix.height
+//                    val bmp = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
+//                    for (x in 0 until width) {
+//                        for (y in 0 until height) {
+//                            bmp.setPixel(x, y, if (bitMatrix[x, y]) Color.BLACK else Color.WHITE)
+//                        }
+//                    }
+//                    qrImage.setImageBitmap(bmp)
+//                    addDataEvent(namaEv, jmlAntrian, time, uid)
+//                } catch (e: WriterException) {
+//                    e.printStackTrace()
+//                }
+                addDataEvent(namaEv, jmlAntrian, time, uid)
+
+
             }
         }
     }
 
     private fun addDataEvent(namaEV: String, jmlAntrian: String, tanggal: String, uid: String) {
-        mDbRef.child(uid).child("Event")
+        mDbRef.child("data").child("event").child(uid)
             .setValue(EventViewModel(namaEV, jmlAntrian, tanggal, uid))
+        Toast.makeText(this, "Data Tersimpan", Toast.LENGTH_SHORT).show()
     }
 }

@@ -42,10 +42,10 @@ class AntrianFragment : Fragment() {
         rvAntrian.layoutManager = LinearLayoutManager(this.context)
         rvAntrian.setHasFixedSize(true)
 
-        rvAntrian.adapter = AdapterEvent(dataAntrianView)
+        rvAntrian.adapter = AdapterAntrian(dataAntrianView)
         val data = activity?.intent?.getStringExtra(EXTRA_UID)
         Toast.makeText(requireActivity(), "$data", Toast.LENGTH_SHORT).show()
-        mDbRef = FirebaseDatabase.getInstance().getReference("$data")
+        mDbRef = FirebaseDatabase.getInstance().getReference("data").child(data!!)
         getAntrian()
     }
 
@@ -57,7 +57,7 @@ class AntrianFragment : Fragment() {
                         val user = userSnapshot.getValue(EventViewModel::class.java)
                         dataAntrianView.add(user!!)
                     }
-                    rvAntrian.adapter = AdapterEvent(dataAntrianView)
+                    rvAntrian.adapter = AdapterAntrian(dataAntrianView)
 
                 }
 
