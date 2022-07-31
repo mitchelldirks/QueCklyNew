@@ -2,7 +2,9 @@ package com.example.quecklynew
 
 import android.Manifest
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -22,6 +24,8 @@ import com.google.firebase.database.*
 
 class ScanActivity : AppCompatActivity() {
     private lateinit var codeScanner: CodeScanner
+    private lateinit var sharedPre: SharedPreferences
+    lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,8 +70,15 @@ class ScanActivity : AppCompatActivity() {
 //                ft!!.commit()
 
                 val data = it.text
+
+                sharedPreferences = getSharedPreferences("SHARED", Context.MODE_PRIVATE)
+                val getData = data
+                val editor: SharedPreferences.Editor = sharedPreferences.edit()
+                editor.putString("uid", getData)
+                editor.apply()
+
                 val intent = Intent(this, MainActivity::class.java)
-                intent.putExtra(AntrianFragment.EXTRA_UID, data)
+                intent.putExtra(AntrianFragment.EXTRA_UID, getData)
                 startActivity(intent)
 
             }

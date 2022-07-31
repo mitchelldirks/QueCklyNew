@@ -4,19 +4,22 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.example.quecklynew.Fragment.AntrianFragment
 import com.example.quecklynew.Model.EventModel
 import com.example.quecklynew.Model.EventViewModel
 import com.example.quecklynew.R
 
-class AdapterAntrian(var dataAntrian: ArrayList<EventViewModel>) :
+class AdapterAntrian(var dataAntrian: ArrayList<EventModel>) :
     RecyclerView.Adapter<AdapterAntrian.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val namaEv = itemView.findViewById<TextView>(R.id.namaEventShow)
@@ -35,6 +38,9 @@ class AdapterAntrian(var dataAntrian: ArrayList<EventViewModel>) :
         holder.namaEv.text = dataView.namaEventView
         holder.jmlAntrian.text = dataView.nomorAntrianView
         holder.tanggalScan.text = dataView.tanggalView
+
+
+
 
 //        holder.itemView.setOnClickListener {
 //            val alert = AlertDialog.Builder(holder.itemView.context)

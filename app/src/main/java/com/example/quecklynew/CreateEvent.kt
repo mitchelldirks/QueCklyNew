@@ -80,6 +80,11 @@ class CreateEvent : AppCompatActivity() {
     private fun addDataEvent(namaEV: String, jmlAntrian: String, tanggal: String, uid: String) {
         mDbRef.child("data").child("event").child(uid)
             .setValue(EventViewModel(namaEV, jmlAntrian, tanggal, uid))
+            .addOnSuccessListener {
+                mDbRef.child("data").child("antrian").child(uid).child(uid)
+                    .setValue(EventModel(namaEV, jmlAntrian, tanggal, uid)).addOnSuccessListener {
+                    }
+            }
         Toast.makeText(this, "Data Tersimpan", Toast.LENGTH_SHORT).show()
     }
 }
