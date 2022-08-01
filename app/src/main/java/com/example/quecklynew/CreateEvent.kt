@@ -1,6 +1,8 @@
 package com.example.quecklynew
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +13,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import com.example.quecklynew.Model.EventModel
 import com.example.quecklynew.Model.EventViewModel
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.zxing.BarcodeFormat
@@ -25,12 +28,16 @@ class CreateEvent : AppCompatActivity() {
     private lateinit var jmlAntrian: EditText
     private lateinit var btnSaveCreate: Button
     private lateinit var btnViewEvent: Button
+    lateinit var prefer: SharedPreferences
+    lateinit var mAuth: FirebaseAuth
 
     private lateinit var mDbRef: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_event)
+
+        mAuth = FirebaseAuth.getInstance()
 
         qrImage = findViewById(R.id.qrCodeView)
         nmEvent = findViewById(R.id.namaEvent)
@@ -46,8 +53,8 @@ class CreateEvent : AppCompatActivity() {
         btnSaveCreate.setOnClickListener {
             val namaEv = nmEvent.text.toString().trim()
             val jmlAntrian = jmlAntrian.text.toString().trim()
-            val uid = UUID.randomUUID().toString()
             val calendar = Calendar.getInstance()
+            val uid = mAuth.currentUser?.uid
             val format = SimpleDateFormat(" EEEE d MM yyyy HH:mm:ss")
             val time: String = format.format(calendar.time)
 
@@ -70,7 +77,8 @@ class CreateEvent : AppCompatActivity() {
 //                } catch (e: WriterException) {
 //                    e.printStackTrace()
 //                }
-                addDataEvent(namaEv, jmlAntrian, time, uid)
+
+                addDataEvent(namaEv, jmlAntrian, time, uid!!)
 
 
             }
@@ -78,11 +86,14 @@ class CreateEvent : AppCompatActivity() {
     }
 
     private fun addDataEvent(namaEV: String, jmlAntrian: String, tanggal: String, uid: String) {
-        mDbRef.child("data").child("event").child(uid)
-            .setValue(EventViewModel(namaEV, jmlAntrian, tanggal, uid))
+        val uidRandom = UUID.randomUUID().toString()
+//        prefer = this.getSharedPreferences("uidRegis", Context.MODE_PRIVATE)
+//        val getUid = prefer.getString("uidSend", "")
+        mDbRef.child("data").child("event").child(uid).child(uidRandom)
+            .setValue(EventViewModel(namaEV, jmlAntrian, tanggal, uidRandom))
             .addOnSuccessListener {
-                mDbRef.child("data").child("antrian").child(uid).child(uid)
-                    .setValue(EventModel(namaEV, jmlAntrian, tanggal, uid)).addOnSuccessListener {
+                mDbRef.child("data").child("antrian").child(uidRandom).child(uidRandom)
+                    .setValue(EventModel(namaEV, jmlAntrian, tanggal, uidRandom)).addOnSuccessListener {
                     }
             }
         Toast.makeText(this, "Data Tersimpan", Toast.LENGTH_SHORT).show()

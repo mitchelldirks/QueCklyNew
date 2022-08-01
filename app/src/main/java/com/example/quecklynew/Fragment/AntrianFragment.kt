@@ -16,7 +16,9 @@ import com.example.quecklynew.Adapter.AdapterEvent
 import com.example.quecklynew.Model.EventModel
 import com.example.quecklynew.Model.EventViewModel
 import com.example.quecklynew.R
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.google.firebase.database.ktx.getValue
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -26,6 +28,7 @@ class AntrianFragment : Fragment() {
     private lateinit var dataAntrianView: ArrayList<EventModel>
     private lateinit var mDbRef: DatabaseReference
     lateinit var preferences: SharedPreferences
+    private lateinit var mAuth: FirebaseAuth
 
 
     companion object {
@@ -46,7 +49,7 @@ class AntrianFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        mAuth = FirebaseAuth.getInstance()
 
 
         dataAntrianView = arrayListOf()
@@ -64,44 +67,43 @@ class AntrianFragment : Fragment() {
 
 
         getAntrian()
-//        saveData()
+//        getData()
+
     }
 
     private fun saveData(namaEV: String, jmlAntrian: String, tanggal: String, uid: String) {
+        val uu = UUID.randomUUID().toString()
+        val unice = mAuth.currentUser?.uid
         val data = activity?.intent?.getStringExtra(EXTRA_UID)
-//        mDbRef.child("$data")
-//            .setValue(EventModel(namaEV, jmlAntrian, tanggal, uid))
+        mDbRef.child("$data").child("$unice")
+            .setValue(EventModel(namaEV, jmlAntrian, tanggal, uid))
     }
 
     private fun getAntrian() {
+        val uid = mAuth.currentUser?.uid
         val data = activity?.intent?.getStringExtra(EXTRA_UID)
         preferences = requireActivity().getSharedPreferences("SHARED", Context.MODE_PRIVATE)
         val uidGet = preferences.getString("uid", "")
-        Toast.makeText(requireActivity(), "$uidGet ccccc", Toast.LENGTH_SHORT).show()
-
-
+        Toast.makeText(requireActivity(), "$data", Toast.LENGTH_SHORT).show()
         mDbRef =
-            FirebaseDatabase.getInstance().getReference("data").child("antrian").child("$uidGet")
-
+            FirebaseDatabase.getInstance().getReference("data").child("antrian").child("$data")
         mDbRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
-//                    dataAntrianView.clear()
                     for (userSnapshot in snapshot.children) {
                         val user = userSnapshot.getValue(EventModel::class.java)
+                        dataAntrianView.clear()
                         dataAntrianView.add(user!!)
                         val nameEvent = user!!.namaEventView.toString()
                         val jumlahAntrian = user!!.nomorAntrianView.toString()
                         val tanggal = user!!.tanggalView.toString()
                         val uid = user!!.uidEvent.toString()
-                        saveData(nameEvent, jumlahAntrian, tanggal, uid)
-
+                        val data = jumlahAntrian.toInt()
+                        val ini = data - 1
+                        saveData(nameEvent, ini.toString() , tanggal, uid)
                     }
                     rvAntrian.adapter = AdapterAntrian(dataAntrianView)
-
                 }
-
-
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -109,4 +111,36 @@ class AntrianFragment : Fragment() {
             }
         })
     }
+
+//    private fun getData() {
+//        val data = activity?.intent?.getStringExtra(EXTRA_UID)
+//        mDbRef = FirebaseDatabase.getInstance().getReference("data").child("antrian").child("$data")
+//        mDbRef.addValueEventListener(object : ValueEventListener {
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//                if (snapshot.exists())
+//                    for (userSnapshot in snapshot.children) {
+//                        val user = userSnapshot.getValue(EventModel::class.java)
+//                        dataAntrianView.clear()
+//                        val jumlahAntrian = user!!.nomorAntrianView.toString()
+//                        val data = jumlahAntrian.toInt()
+//                        val ini = data - 1
+//                    }
+//
+//            }
+//
+//            override fun onCancelled(error: DatabaseError) {
+//                TODO("Not yet implemented")
+//            }
+//
+//        })
+//    }
+
+
 }
+
+
+//.addOnSuccessListener {
+//                mDbRef.child("data").child("antrian").child(uid).child(uidRandom)
+//                    .setValue(EventModel(namaEV, jmlAntrian, tanggal, uidRandom)).addOnSuccessListener {
+//                    }
+//            }

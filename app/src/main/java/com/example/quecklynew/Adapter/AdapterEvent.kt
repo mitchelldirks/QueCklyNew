@@ -12,10 +12,12 @@ import com.example.quecklynew.Model.EventViewModel
 import com.example.quecklynew.R
 import com.example.quecklynew.VIewQrCOde
 import com.example.quecklynew.ViewEvent
+import com.google.firebase.auth.FirebaseAuth
 
 class AdapterEvent(val viewEvent: ArrayList<EventViewModel>) :
     RecyclerView.Adapter<AdapterEvent.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private lateinit var mAuth: FirebaseAuth
         val nmEvent = itemView.findViewById<TextView>(R.id.namaEventView)
         val jmlAntrianView = itemView.findViewById<TextView>(R.id.jmlAntrianView)
         val tngglEventView = itemView.findViewById<TextView>(R.id.tanggalEventView)
@@ -37,6 +39,7 @@ class AdapterEvent(val viewEvent: ArrayList<EventViewModel>) :
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, VIewQrCOde::class.java)
             intent.putExtra(VIewQrCOde.EXTRA_QRCODE, eventView.uidEvent)
+            Toast.makeText(holder.itemView.context, "${eventView.uidEvent}", Toast.LENGTH_SHORT).show()
             holder.itemView.context.startActivity(intent)
         }
     }

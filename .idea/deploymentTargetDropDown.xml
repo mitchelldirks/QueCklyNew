@@ -6,12 +6,12 @@
         <type value="RUNNING_DEVICE_TARGET" />
         <deviceKey>
           <Key>
-            <type value="SERIAL_NUMBER" />
-            <value value="74d068200904" />
+            <type value="VIRTUAL_DEVICE_PATH" />
+            <value value="C:\Users\PC-03\.android\avd\xiomi_Redmi_5_Plus.avd" />
           </Key>
         </deviceKey>
       </Target>
     </runningDeviceTargetSelectedWithDropDown>
-    <timeTargetWasSelectedWithDropDown value="2022-07-31T09:20:02.089673300Z" />
+    <timeTargetWasSelectedWithDropDown value="2022-08-01T06:51:10.332416500Z" />
   </component>
 </project>

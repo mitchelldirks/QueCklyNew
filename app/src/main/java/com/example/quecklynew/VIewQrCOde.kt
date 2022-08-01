@@ -24,11 +24,11 @@ class VIewQrCOde : AppCompatActivity() {
         setContentView(R.layout.activity_view_qr_code)
         qrImageView = findViewById(R.id.qrCodeViewIntent)
 
-        val uid = intent.getStringExtra(EXTRA_QRCODE)
+        val uidView = intent.getStringExtra(EXTRA_QRCODE)
 
         val writer = QRCodeWriter()
         try {
-            val bitMatrix = writer.encode(uid, BarcodeFormat.QR_CODE, 512, 512)
+            val bitMatrix = writer.encode(uidView, BarcodeFormat.QR_CODE, 512, 512)
             val width = bitMatrix.width
             val height = bitMatrix.height
             val bmp = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)

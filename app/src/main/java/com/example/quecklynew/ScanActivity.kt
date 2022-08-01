@@ -70,15 +70,15 @@ class ScanActivity : AppCompatActivity() {
 //                ft!!.commit()
 
                 val data = it.text
-
-                sharedPreferences = getSharedPreferences("SHARED", Context.MODE_PRIVATE)
-                val getData = data
-                val editor: SharedPreferences.Editor = sharedPreferences.edit()
-                editor.putString("uid", getData)
-                editor.apply()
+//
+//                sharedPreferences = getSharedPreferences("SHARED", Context.MODE_PRIVATE)
+//                val getData = data
+//                val editor: SharedPreferences.Editor = sharedPreferences.edit()
+//                editor.putString("uid", getData)
+//                editor.apply()
 
                 val intent = Intent(this, MainActivity::class.java)
-                intent.putExtra(AntrianFragment.EXTRA_UID, getData)
+                intent.putExtra(AntrianFragment.EXTRA_UID, data)
                 startActivity(intent)
 
             }

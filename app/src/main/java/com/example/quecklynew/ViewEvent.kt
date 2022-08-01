@@ -10,12 +10,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.quecklynew.Adapter.AdapterEvent
 import com.example.quecklynew.Model.EventViewModel
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
 class ViewEvent : AppCompatActivity() {
     private lateinit var rvEventView: RecyclerView
     private lateinit var dataEventView: ArrayList<EventViewModel>
     private lateinit var mDbRef: DatabaseReference
+    private lateinit var mAuth: FirebaseAuth
 
     companion object {
         const val EXTRA_EVENT_VIEW_UID = "extra_event_view_uid"
@@ -25,6 +27,7 @@ class ViewEvent : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view_event)
+        mAuth=FirebaseAuth.getInstance()
 
         dataEventView = arrayListOf()
         rvEventView = findViewById(R.id.rvEvent)
@@ -32,8 +35,8 @@ class ViewEvent : AppCompatActivity() {
         rvEventView.setHasFixedSize(true)
         val uidGet = intent.getStringExtra(EXTRA_EVENT_VIEW_UID)
         Toast.makeText(this, "$uidGet", Toast.LENGTH_SHORT).show()
-        Log.e("TAG", "onCreate: $uidGet")
-        mDbRef = FirebaseDatabase.getInstance().getReference("data").child("event")
+        val uid = mAuth.currentUser?.uid
+        mDbRef = FirebaseDatabase.getInstance().getReference("data").child("event").child("$uid")
 
         getEventData()
     }
