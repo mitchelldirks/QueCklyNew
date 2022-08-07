@@ -4,26 +4,21 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.quecklynew.Adapter.AdapterAntrian
-import com.example.quecklynew.Adapter.AdapterEvent
 import com.example.quecklynew.Model.AntriUser
 import com.example.quecklynew.Model.EventModel
-import com.example.quecklynew.Model.EventViewModel
 import com.example.quecklynew.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import com.google.firebase.database.ktx.getValue
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class AntrianFragment : Fragment() {
 
@@ -32,6 +27,8 @@ class AntrianFragment : Fragment() {
     private lateinit var mDbRef: DatabaseReference
     private lateinit var mdRe: DatabaseReference
     private lateinit var mdd: DatabaseReference
+    private lateinit var mDbGet: DatabaseReference
+
     lateinit var preferences: SharedPreferences
     private lateinit var mAuth: FirebaseAuth
 
@@ -68,6 +65,7 @@ class AntrianFragment : Fragment() {
         mDbRef = FirebaseDatabase.getInstance().reference
         mdRe = FirebaseDatabase.getInstance().reference
         mdd = FirebaseDatabase.getInstance().reference
+        mDbGet = FirebaseDatabase.getInstance().reference
 
         val calendar = Calendar.getInstance()
         val format = SimpleDateFormat(" EEEE d MM yyyy HH:mm:ss")
@@ -96,6 +94,21 @@ class AntrianFragment : Fragment() {
             .setValue(AntriUser(namaEV, jmlAntrian, mulai, antrike, tanggal, uid))
     }
 
+    private fun getLastQueue(uid: String) {
+        mDbGet.child("antrianUser").child(uid).addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    // return snapshot.getChildrenCount().toString()
+                    for (dump in snapshot.children) {
+                        val user = dump.getValue(EventModel::class.java)
+//                        Log.e("debug", "onDataChange: $user",)
+                        return user
+                    }
+                }
+            }
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+    }
     private fun getAntrian() {
         val calendar = Calendar.getInstance()
         val format = SimpleDateFormat(" EEEE d MM yyyy HH:mm:ss")
