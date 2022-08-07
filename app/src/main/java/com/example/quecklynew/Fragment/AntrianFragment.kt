@@ -101,8 +101,8 @@ class AntrianFragment : Fragment() {
                     // return snapshot.getChildrenCount().toString()
                     for (dump in snapshot.children) {
                         val user = dump.getValue(EventModel::class.java)
-//                        Log.e("debug", "onDataChange: $user",)
-                        return user
+                        Log.e("debug", "onDataChange: $user",)
+//                        return user
                     }
                 }
             }
