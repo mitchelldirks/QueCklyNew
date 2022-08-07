@@ -65,7 +65,7 @@ class RegisterActivity : AppCompatActivity() {
         val email = emailRegis.text.toString()
         val uid = mAuth.currentUser?.uid
         Log.e("uid", "auth: $uid", )
-        mDbRef.child("data").child("user").child("$uid").setValue(AuthModel(name, email, uid))
+        mDbRef.child("user").child("$uid").setValue(AuthModel(name, email, uid))
 //        sharedPreferences = getSharedPreferences("uidRegis", Context.MODE_PRIVATE)
 //        val getRegis = uid
 //        val editor: SharedPreferences.Editor = sharedPreferences.edit()

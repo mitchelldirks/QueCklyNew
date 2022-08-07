@@ -15,11 +15,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.quecklynew.Fragment.AntrianFragment
+import com.example.quecklynew.Model.AntriUser
 import com.example.quecklynew.Model.EventModel
 import com.example.quecklynew.Model.EventViewModel
 import com.example.quecklynew.R
 
-class AdapterAntrian(var dataAntrian: ArrayList<EventModel>) :
+class AdapterAntrian(var dataAntrian: ArrayList<AntriUser>) :
     RecyclerView.Adapter<AdapterAntrian.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val namaEv = itemView.findViewById<TextView>(R.id.namaEventShow)
@@ -35,11 +36,9 @@ class AdapterAntrian(var dataAntrian: ArrayList<EventModel>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val dataView = dataAntrian[position]
-        holder.namaEv.text = dataView.namaEventView
-        holder.jmlAntrian.text = dataView.nomorAntrianView
-        holder.tanggalScan.text = dataView.tanggalView
-
-
+        holder.namaEv.text = dataView.namaAntri
+        holder.jmlAntrian.text = dataView.antrianKe.toString()
+        holder.tanggalScan.text = dataView.tanggalAntri
 
 
 //        holder.itemView.setOnClickListener {

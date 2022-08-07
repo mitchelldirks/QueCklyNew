@@ -89,10 +89,10 @@ class CreateEvent : AppCompatActivity() {
         val uidRandom = UUID.randomUUID().toString()
 //        prefer = this.getSharedPreferences("uidRegis", Context.MODE_PRIVATE)
 //        val getUid = prefer.getString("uidSend", "")
-        mDbRef.child("data").child("event").child(uid).child(uidRandom)
+        mDbRef.child("event").child(uid).child(uidRandom)
             .setValue(EventViewModel(namaEV, jmlAntrian, tanggal, uidRandom))
             .addOnSuccessListener {
-                mDbRef.child("data").child("antrian").child(uidRandom).child(uidRandom)
+                mDbRef.child("antrian").child(uidRandom).child(uidRandom)
                     .setValue(EventModel(namaEV, jmlAntrian, tanggal, uidRandom)).addOnSuccessListener {
                     }
             }

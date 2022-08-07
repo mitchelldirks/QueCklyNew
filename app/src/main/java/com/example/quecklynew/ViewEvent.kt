@@ -36,7 +36,7 @@ class ViewEvent : AppCompatActivity() {
         val uidGet = intent.getStringExtra(EXTRA_EVENT_VIEW_UID)
         Toast.makeText(this, "$uidGet", Toast.LENGTH_SHORT).show()
         val uid = mAuth.currentUser?.uid
-        mDbRef = FirebaseDatabase.getInstance().getReference("data").child("event").child("$uid")
+        mDbRef = FirebaseDatabase.getInstance().getReference("event").child("$uid")
 
         getEventData()
     }
