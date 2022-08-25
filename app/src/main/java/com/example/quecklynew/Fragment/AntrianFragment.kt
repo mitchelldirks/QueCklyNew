@@ -94,21 +94,21 @@ class AntrianFragment : Fragment() {
             .setValue(AntriUser(namaEV, jmlAntrian, mulai, antrike, tanggal, uid))
     }
 
-    private fun getLastQueue(uid: String) {
-        mDbGet.child("antrianUser").child(uid).addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.exists()) {
-                    // return snapshot.getChildrenCount().toString()
-                    for (dump in snapshot.children) {
-                        val user = dump.getValue(EventModel::class.java)
-                        Log.e("debug", "onDataChange: $user",)
-//                        return user
-                    }
-                }
-            }
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
-    }
+//    public fun getLastQueue(uid: String) {
+//        mDbGet.child("antrianUser").child(uid).addValueEventListener(object : ValueEventListener {
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//                if (snapshot.exists()) {
+//                     return snapshot.childrenCount.toString()
+////                    for (dump in snapshot.children) {
+////                        val user = dump.getValue(EventModel::class.java)
+//////                        Log.e("debug", "onDataChange: $user",)
+////                        return user
+////                    }
+//                }
+//            }
+//            override fun onCancelled(databaseError: DatabaseError) {}
+//        })
+//    }
     private fun getAntrian() {
         val calendar = Calendar.getInstance()
         val format = SimpleDateFormat(" EEEE d MM yyyy HH:mm:ss")
@@ -120,20 +120,32 @@ class AntrianFragment : Fragment() {
         preferences = requireActivity().getSharedPreferences("SHARED", Context.MODE_PRIVATE)
         val uidGet = preferences.getString("uid", "")
         Toast.makeText(requireActivity(), "$data", Toast.LENGTH_SHORT).show()
+
+
         mDbRef =
             FirebaseDatabase.getInstance().getReference("antrian").child("$data")
         mDbRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
                     for (userSnapshot in snapshot.children) {
+
                         val user = userSnapshot.getValue(EventModel::class.java)
                         val nameEvent = user!!.namaEventView.toString()
                         val jumlahAntrian = user!!.nomorAntrianView.toString()
                         val tanggal = user!!.tanggalView.toString()
                         val uid = user!!.uidEvent.toString()
                         val data = jumlahAntrian.toInt()
-                        var angka = 1
-                        saveData(nameEvent, data, angka, angka, time, uid)
+                        mDbGet.child("antrianUser").child(uid).addValueEventListener(object : ValueEventListener {
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                if (snapshot.exists()) {
+                                    var angka = snapshot.childrenCount.toInt()
+//                        var angka = getLastQueue(uid) + 1
+                                    saveData(nameEvent, data, angka, angka, time, uid)
+                                }
+                            }
+                            override fun onCancelled(databaseError: DatabaseError) {}
+                        })
+
 
 
                     }
